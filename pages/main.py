@@ -24,12 +24,20 @@ def get_categories():
 
 @st.cache_data
 def get_movies_by_genres(category: str, limit: int = 10):
-    url = f'https://flexnet-backend-nboddrddha-uc.a.run.app/movies/{category}?skip=0&limit={limit}'
-    response = requests.get(url, None)
-    if response.status_code == 200:
-        response = json.loads(response.text)
-        return response[f'Movies from {category} category']
-    return None
+    list_of_movies = []
+    for skip in range(limit):
+        url = f'https://flexnet-backend-nboddrddha-uc.a.run.app/movies/{category}?skip={skip}&limit=30'
+        response = requests.get(url, None)
+        if response.status_code != 200:
+            break
+        movies = json.loads(response.text)
+        movies = movies[f'Movies from {category} category']
+        for movie in movies:
+            if movie in list_of_movies:
+                continue
+            else:
+                list_of_movies.append(movie)
+    return list_of_movies
 
 @st.cache_data
 def get_recommendations_by_movies(title: str):
@@ -45,11 +53,13 @@ def show_movie(movie: dict) -> None:
     title = movie["original_title"]
     description = movie["overview"]
     image_url = 'https://image.tmdb.org/t/p/w500' + movie['poster_path']
+    stars = round(movie['vote_average'])
     st.image(image_url, caption=title, use_column_width=True)
     st.markdown(f"### Title:")
     st.write(title)
     st.markdown("### Description :")
     st.write(description)
+    st.write("🌟" * stars + f" {stars}/10")
 
 @st.cache_data
 def show_recommended_movies(title: str):

@@ -1,6 +1,24 @@
 import streamlit as st
 from pages.main import landing_page
 from pages.recommendations import show_recommendation
+hide_menu = """
+<style>
+#MainMenu {
+    visibility:hidden;
+}
+
+footer {
+    visibility:visible;
+}
+
+footer:after {
+  content:'Copyright © 2023: Flexnet';
+  display:block;
+  color:tomato;
+  position:relative;
+}
+</style>
+"""
 
 
 #st.set_page_config(
@@ -15,6 +33,7 @@ from pages.recommendations import show_recommendation
 #    }
 #)
 
+st.markdown(hide_menu, unsafe_allow_html=True)
 landing_page()
 start = st.link_button("Get started", "../recommendations")
 

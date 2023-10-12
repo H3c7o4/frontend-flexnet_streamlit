@@ -1,7 +1,30 @@
 import streamlit as st
 from pages.main import get_films, show_movie
 
+hide_menu = """
+<style>
+#MainMenu {
+    visibility:hidden;
+}
+
+footer {
+    visibility:visible;
+}
+
+footer:after {
+  content:'Copyright © 2023: Flexnet';
+  display:block;
+  color:tomato;
+  position:relative;
+}
+</style>
+"""
+
+st.markdown(hide_menu, unsafe_allow_html=True)
+
 def show_movies_page(skip: int):
+    st.title("All Movies from Data base")
+    st.write("")
     movies = get_films(skip)
     col_val = [0, 0, 0]
     col1, col2, col3 = st.columns(3)
@@ -12,7 +35,7 @@ def show_movies_page(skip: int):
 
         with col_dict[str(index)]:
             show_movie(movie)
-            # st.markdown("---")
+            st.markdown("---")
             col_val[index] += 1
 
 def show_next_movies_page(debut: int, limit: int):
@@ -22,3 +45,5 @@ def show_next_movies_page(debut: int, limit: int):
 show_movies_page(1)
 show_movies_page(2)
 show_movies_page(3)
+show_movies_page(4)
+show_movies_page(5)
