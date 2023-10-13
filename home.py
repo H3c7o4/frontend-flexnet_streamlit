@@ -20,7 +20,6 @@ footer:after {
 </style>
 """
 
-
 #st.set_page_config(
 #    page_title="Flexnet",
 #    page_icon=":clapper:",
